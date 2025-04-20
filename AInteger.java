@@ -183,4 +183,39 @@ public class AInteger{
         Ans=ReverseString(Ans);
         return Ans;
     }
+
+    private String MulPosSingleDigit(String Str,char Digit){
+        String a=ReverseString(Str);
+        int Borrow=0;
+        int Num=Digit-'0';
+        String Ans="";
+        for(int i=0;i<a.length();i++){
+            int Digit1=a.charAt(i)-'0';
+            char c=(char) (((Digit1*Num+Borrow)%10)+'0');
+            Ans+=c;
+            Borrow=(Digit1*Num+Borrow)/10;
+        }
+        if (Borrow>0) {
+            Ans+=(char) (Borrow+'0');
+        }
+        Ans=ReverseString(Ans);
+        return Ans;
+    }
+
+    private String MulPositiveNums(String Str1,String Str2){
+        String a=Str1;
+        String b=ReverseString(Str2);
+        String Ans="0"; 
+        int L1=a.length();
+        int L2=b.length();
+        for(int i=0;i<L2;i++){
+            String temp=MulPosSingleDigit(a,b.charAt(i));
+            for(int j=0;j<i;j++){
+                temp+="0";
+            }
+            Ans=AddPositiveNums(Ans,temp);
+        }
+        Ans=RemoveZerosStart(Ans);
+        return Ans;
+    }
 }
