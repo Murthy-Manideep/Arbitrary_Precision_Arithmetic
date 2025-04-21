@@ -218,4 +218,36 @@ public class AInteger{
         Ans=RemoveZerosStart(Ans);
         return Ans;
     }
+
+    private String DivPosNums(String Str1, String Str2){
+        if(Str2.equals("0")){
+            throw new ArithmeticException("Division by zero");
+        }
+        if(Str1.equals("0")){
+            return "0";
+        }
+        String a=RemoveZerosStart(Str1);
+        String b=RemoveZerosStart(Str2);
+        if(MaxString(a,b).equals(b)){
+            if(a.equals(b)){
+                return "1";
+            }
+            return "0";
+        }
+        String Ans="";
+        String Current="";
+        for(int i=0;i<a.length();i++){
+            Current+=a.charAt(i);
+            Current=RemoveZerosStart(Current);
+            int Count=0;
+            while(MaxString(Current,b).equals(Current)) {
+                Current=SubPositiveNums(Current,b);
+                Current=RemoveZerosStart(Current);
+                Count++;
+            }
+            Ans+=((char) (Count+'0'));
+        }
+        Ans=RemoveZerosStart(Ans);
+        return Ans;
+    }
 }
