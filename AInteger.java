@@ -2,11 +2,16 @@ package arbitraryarithmetic;
 public class AInteger{
     public String Number;
     public boolean numNegative=false;
-    
+    /**
+     *Default Constructor AInteger() That Initializes The Instance With Value 0. 
+     */
     public AInteger(){
         this.Number="0";
     }
-
+    /**
+     * Constructor AInteger(String Str) That Initializes The Instance By The Number Whose String Representation Is Given By 'Str'.
+     * @param Str String Representing A Integer
+     */
     public AInteger(String Str){
         Str=RemoveZerosStart(Str);
         this.Number=Str;
@@ -14,16 +19,29 @@ public class AInteger{
             numNegative=true;
         }
     }
-
+    /**
+     * Copy Constructor That Creates An Instance Of AInteger
+     * @param x Another AInteger Object 
+     */
     public AInteger(AInteger x){
         this.Number=x.Number;
         this.numNegative=x.numNegative;
     }
 
+    /**
+     * Parse A Static Function That Returns An Instance Of AInteger Class.
+     * @param Str
+     * @return Instance Of AInteger Class
+     */
     public static AInteger parse(String Str){
         return new AInteger(Str);
     }
 
+    /**
+     * Check Whether A String Is Negative Or Positive
+     * @param Str Input
+     * @return False If Negative And True If Positive
+     */
     private boolean isNegative(String Str){
         if(Str.charAt(0)=='-'){
             return true;
@@ -31,6 +49,11 @@ public class AInteger{
         return false;
     }
 
+    /**
+     * Reverse Of A String 
+     * @param Str Input
+     * @return Reverse Of Input String
+     */
     private String ReverseString(String Str){
         String Ans="";
         for(int i=Str.length()-1;i>=0;i--){
@@ -39,6 +62,11 @@ public class AInteger{
         return Ans;  
     }
 
+    /**
+     * Absolute Part Of The Input String
+     * @param Str Input
+     * @return Absolute Value
+     */
     private String Modulus(String Str){
         if(isNegative(Str)){
             return Str.substring(1);
@@ -46,6 +74,12 @@ public class AInteger{
         return Str;
     }
 
+    /**
+     * Greatest Of The Two Strings Without Considering Sign
+     * @param Str1 First Number String
+     * @param Str2 Second Number String
+     * @return Greatest Of The Numbers
+     */
     private String MaxString(String Str1,String Str2){
         int L1=Str1.length();
         int L2=Str2.length();
@@ -68,6 +102,11 @@ public class AInteger{
         return Str1;
     }
 
+    /**
+     * Removing Zeros From The Start Of The Number
+     * @param Str Input
+     * @return String Without Leading Zeros
+     */
     private String RemoveZerosStart(String Str){
         boolean Negative=isNegative(Str);
         Str=Modulus(Str);                 
@@ -88,6 +127,12 @@ public class AInteger{
         return Ans;
     }
 
+    /**
+     * Additon Of Two Positive Integer Numbers
+     * @param Str1 First Number String 
+     * @param Str2 Second Number String
+     * @return (Str1+Str2)
+     */
     private String AddPositiveNums(String Str1,String Str2){
         String a=ReverseString(Str1);
         String b=ReverseString(Str2);
@@ -125,6 +170,12 @@ public class AInteger{
         return Ans;
     }
 
+    /**
+     * Subtraction Of Two Positive Integer Numbers (First-Second)
+     * @param Str1 First Number String
+     * @param Str2 Second Number String
+     * @return (Str1-Str2)
+     */
     private String SubPositiveNums(String Str1,String Str2) {
         if(Str1.equals(Str2)){
             return "0";
@@ -184,6 +235,12 @@ public class AInteger{
         return Ans;
     }
 
+    /**
+     * Multplication Of A Number With A Digit
+     * @param Str Input Number String
+     * @param Digit Input Char Single Digit
+     * @return (Str*digit)
+     */
     private String MulPosSingleDigit(String Str,char Digit){
         String a=ReverseString(Str);
         int Borrow=0;
@@ -202,6 +259,12 @@ public class AInteger{
         return Ans;
     }
 
+    /**
+     * Multiplication Of Two Numbers
+     * @param Str1 First Number String
+     * @param Str2 Second Number String
+     * @return (Str1*Str2)
+     */
     private String MulPositiveNums(String Str1,String Str2){
         String a=Str1;
         String b=ReverseString(Str2);
@@ -219,6 +282,12 @@ public class AInteger{
         return Ans;
     }
 
+    /**
+     * Integer Divison Of Two Numbers  
+     * @param Str1 First Number String 
+     * @param Str2 Second Number String
+     * @return (Str1/Str2)
+     */
     private String DivPosNums(String Str1, String Str2){
         if(Str2.equals("0")){
             throw new ArithmeticException("Division by zero");
@@ -251,6 +320,12 @@ public class AInteger{
         return Ans;
     }
 
+    
+    /**
+     * Addition Of Two AIntegers
+     * @param x AInteger 
+     * @return (this.Number+x.Number)
+     */
     public AInteger add(AInteger x){
         String Ans;
         if((this.numNegative)&&(x.numNegative)){
@@ -265,9 +340,14 @@ public class AInteger{
         else{
             Ans=AddPositiveNums(Modulus(this.Number),Modulus(x.Number));
         }
-        return new AInteger(Ans);
+        return parse(Ans);
     }
 
+    /**
+     * Subraction Of Two AIntegers
+     * @param x AInteger
+     * @return (this.Number-x.Number)
+     */
     public AInteger sub(AInteger x){
         String Ans;
         if((this.numNegative)&&(x.numNegative)){
@@ -282,9 +362,14 @@ public class AInteger{
         else{
             Ans=SubPositiveNums(Modulus(this.Number),Modulus(x.Number));
         }
-        return new AInteger(Ans);
+        return parse(Ans);
     }
 
+    /**
+     * Multplication Of Two AIntegers
+     * @param x AInteger
+     * @return ((this.Number)*(x.Number))
+     */
     public AInteger mul(AInteger x){
         String Ans;
         if((this.numNegative)&&(x.numNegative)){
@@ -299,9 +384,14 @@ public class AInteger{
         else{
             Ans=MulPositiveNums(Modulus(this.Number),Modulus(x.Number));
         }
-        return new AInteger(Ans);
+        return parse(Ans);
     }
 
+    /**
+     * Divison Of Two AIntegers
+     * @param x AInteger
+     * @return ((this.Number)/(x.Number))
+     */
     public AInteger div(AInteger x){
         String Ans;
         if((this.numNegative)&&(x.numNegative)){
@@ -316,7 +406,7 @@ public class AInteger{
         else{
             Ans=DivPosNums(Modulus(this.Number),Modulus(x.Number));
         }
-        return new AInteger(Ans);
+        return parse(Ans);
     }
 
     public String toString(){
