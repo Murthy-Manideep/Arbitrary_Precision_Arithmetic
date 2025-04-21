@@ -250,4 +250,76 @@ public class AInteger{
         Ans=RemoveZerosStart(Ans);
         return Ans;
     }
+
+    public AInteger add(AInteger x){
+        String Ans;
+        if((this.numNegative)&&(x.numNegative)){
+            Ans="-"+(AddPositiveNums(Modulus(x.Number),Modulus(this.Number)));
+        }
+        else if((!this.numNegative)&&(x.numNegative)){
+            Ans=SubPositiveNums(Modulus(this.Number),Modulus(x.Number));
+        }
+        else if((this.numNegative)&&(!x.numNegative)){
+            Ans=SubPositiveNums(Modulus(x.Number),Modulus(this.Number));
+        }
+        else{
+            Ans=AddPositiveNums(Modulus(this.Number),Modulus(x.Number));
+        }
+        return new AInteger(Ans);
+    }
+
+    public AInteger sub(AInteger x){
+        String Ans;
+        if((this.numNegative)&&(x.numNegative)){
+            Ans=SubPositiveNums(Modulus(x.Number),Modulus(this.Number));
+        }
+        else if((!this.numNegative)&&(x.numNegative)){
+            Ans=AddPositiveNums(Modulus(this.Number),Modulus(x.Number));
+        }
+        else if((this.numNegative)&&(!x.numNegative)){
+            Ans="-"+(AddPositiveNums(Modulus(this.Number),Modulus(x.Number)));
+        }
+        else{
+            Ans=SubPositiveNums(Modulus(this.Number),Modulus(x.Number));
+        }
+        return new AInteger(Ans);
+    }
+
+    public AInteger mul(AInteger x){
+        String Ans;
+        if((this.numNegative)&&(x.numNegative)){
+            Ans=MulPositiveNums(Modulus(this.Number),Modulus(x.Number));
+        }
+        else if((!this.numNegative)&&(x.numNegative)){
+            Ans="-"+(MulPositiveNums(Modulus(this.Number),Modulus(x.Number)));
+        }
+        else if((this.numNegative)&&(!x.numNegative)){
+            Ans="-"+(MulPositiveNums(Modulus(this.Number),Modulus(x.Number)));
+        }
+        else{
+            Ans=MulPositiveNums(Modulus(this.Number),Modulus(x.Number));
+        }
+        return new AInteger(Ans);
+    }
+
+    public AInteger div(AInteger x){
+        String Ans;
+        if((this.numNegative)&&(x.numNegative)){
+            Ans=DivPosNums(Modulus(this.Number),Modulus(x.Number));
+        }
+        else if((!this.numNegative)&&(x.numNegative)){
+            Ans="-"+(DivPosNums(Modulus(this.Number),Modulus(x.Number)));
+        }
+        else if((this.numNegative)&&(!x.numNegative)){
+            Ans="-"+(DivPosNums(Modulus(this.Number),Modulus(x.Number)));
+        }
+        else{
+            Ans=DivPosNums(Modulus(this.Number),Modulus(x.Number));
+        }
+        return new AInteger(Ans);
+    }
+
+    public String toString(){
+        return this.Number;
+    }
 }
