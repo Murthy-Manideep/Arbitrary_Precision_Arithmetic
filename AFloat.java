@@ -145,13 +145,167 @@ public class AFloat{
     }
 
     private String RemoveUnnecessaryZeros(String Str){
+        boolean Negative=isNegative(Str);
+        Str=Modulus(Str);
         int DecPlaces=DecimalPlaces(Str);
-        if(DecPlaces==0){
-            return RemoveZerosStart(Str);
+        if (DecPlaces==0){
+            String Ans=RemoveZerosStart(Str);
+            if(Negative&&!Ans.equals("0")){
+                Ans="-"+Ans;
+            }
+            return Ans;
         }
-        String RealPart=Str.substring(0,Str.length()-DecPlaces-1);
+        String RealPart=Str.substring(0, Str.length()-DecPlaces-1);
         String DecPart=Str.substring(Str.length()-DecPlaces);
-        String Ans=RemoveZerosStart(RealPart)+"."+ReverseString(RemoveZerosStart(ReverseString(DecPart)));
+        RealPart=RemoveZerosStart(RealPart);
+        DecPart=ReverseString(RemoveZerosStart(ReverseString(DecPart)));
+        if(DecPart.length()==0){
+            DecPart="0";
+        }
+        String Ans=RealPart+"."+DecPart;
+        if (Negative&&!Ans.equals("0.0")&&!Ans.equals("0")) {
+            Ans="-"+Ans;
+        }
+        return Ans;
+    }
+
+    private String AddPositiveNums(String Str1, String Str2) {
+        int DecPlaces1=DecimalPlaces(Str1);
+        int DecPlaces2=DecimalPlaces(Str2);
+        int MaxDecPlaces;
+        if(DecPlaces1>DecPlaces2){
+            MaxDecPlaces=DecPlaces1;
+        }
+        else{
+            MaxDecPlaces=DecPlaces2;
+        }
+        String a=Str1,b=Str2;
+        if (MaxDecPlaces>DecPlaces1){
+            a=AppendZeros(Str1,MaxDecPlaces-DecPlaces1);
+        }
+        if (MaxDecPlaces>DecPlaces2){
+            b=AppendZeros(Str2,MaxDecPlaces-DecPlaces2);
+        }
+        a=ReverseString(RemoveDecimal(a));
+        b=ReverseString(RemoveDecimal(b));
+        int L1=a.length();
+        int L2=b.length();
+        String Ans="";
+        int Carry=0;
+        int maxLen;
+        if(L1>L2){
+            maxLen=L1;
+        }
+        else{
+            maxLen=L2;
+        }
+        for(int i=0;i<maxLen;i++){
+            int Digit1;
+            int Digit2;
+            if(i<L1){
+                Digit1=a.charAt(i)-'0';
+            }
+            else Digit1=0;
+            if(i<L2){
+                Digit2=b.charAt(i)-'0';
+            }
+            else Digit2=0;
+            char c=(char) (((Digit1+Digit2+Carry)%10)+'0');
+            Ans+=c;
+            Carry=(Digit1+Digit2+Carry)/10;
+        }
+        if(Carry>0){
+            char c=(char) (Carry+'0');
+            Ans+=c;
+        }
+        Ans=ReverseString(Ans);
+        if(MaxDecPlaces>0){
+            int DecimalPos=Ans.length()-MaxDecPlaces;
+            Ans=Ans.substring(0,DecimalPos)+"."+Ans.substring(DecimalPos);
+        }
+        Ans=RemoveUnnecessaryZeros(Ans);
+        return Ans;
+    }
+
+    private String SubPositiveNums(String Str1,String Str2){
+        if(Str1.equals(Str2)){
+            return "0";
+        }
+        int DecPlaces1=DecimalPlaces(Str1);
+        int DecPlaces2=DecimalPlaces(Str2);
+        int MaxDecPlaces;
+        if(DecPlaces1>DecPlaces2){
+            MaxDecPlaces=DecPlaces1;
+        }
+        else{
+            MaxDecPlaces=DecPlaces2;
+        }
+        String tempa=Str1,tempb=Str2;
+        if (MaxDecPlaces>DecPlaces1){
+            tempa=AppendZeros(Str1,MaxDecPlaces-DecPlaces1);
+        }
+        if (MaxDecPlaces>DecPlaces2){
+            tempb=AppendZeros(Str2,MaxDecPlaces-DecPlaces2);
+        }
+        tempa=RemoveDecimal(tempa);
+        tempb=RemoveDecimal(tempb);
+        String a,b;
+        String Ans="";
+        boolean ansNegative=false;
+        if(MaxString(tempa,tempb).equals(tempa)){
+            a=ReverseString(tempa);
+            b=ReverseString(tempb);
+        } 
+        else{
+            a=ReverseString(tempb);
+            b=ReverseString(tempa);
+            ansNegative=true;
+        }
+        int L1=a.length();
+        int L2=b.length();
+        int Borrow=0;
+        int maxLen;
+        if(L1>L2){
+            maxLen=L1;
+        }
+        else{
+            maxLen=L2;
+        }
+        for(int i=0;i<maxLen;i++){
+            int Digit1;
+            int Digit2;
+            if(i<L1){
+                Digit1=a.charAt(i)-'0';
+            }
+            else{
+                Digit1=0;
+            }
+            if(i<L2){
+                Digit2=b.charAt(i)-'0';
+            }
+            else{
+                Digit2=0;
+            }
+            if(Digit1-Digit2-Borrow<0){
+                char c=(char) ((Digit1-Digit2-Borrow+10)+'0');
+                Ans+=c;
+                Borrow=1;
+            } 
+            else{
+                char c=(char) ((Digit1-Digit2-Borrow)+'0');
+                Ans+=c;
+                Borrow=0;
+            }
+        }
+        Ans=ReverseString(Ans);
+        if(MaxDecPlaces>0){
+            int DecimalPos=Ans.length()-MaxDecPlaces;
+            Ans=Ans.substring(0,DecimalPos)+"."+Ans.substring(DecimalPos);
+        }
+        if(ansNegative){
+            Ans='-'+Ans;
+        }
+        Ans=RemoveUnnecessaryZeros(Ans);
         return Ans;
     }
 }
