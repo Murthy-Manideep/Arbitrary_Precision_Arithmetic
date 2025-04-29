@@ -308,4 +308,49 @@ public class AFloat{
         Ans=RemoveUnnecessaryZeros(Ans);
         return Ans;
     }
+
+    private String MulPosSingleDigit(String Str1,char Digit){
+        int DecPlaces=DecimalPlaces(Str1);
+        String a=ReverseString(RemoveDecimal(Str1));
+        int Borrow=0;
+        int Num=Digit-'0';
+        String Ans="";
+        for(int i=0;i<a.length();i++){
+            int Digit1=a.charAt(i)-'0';
+            char c=(char) (((Digit1*Num+Borrow)%10)+'0');
+            Ans+=c;
+            Borrow=(Digit1*Num+Borrow)/10;
+        }
+        if (Borrow>0) {
+            Ans+=(char) (Borrow+'0');
+        }
+        Ans=ReverseString(Ans);
+        if(DecPlaces>0){
+            int DecimalPos=Ans.length()-DecPlaces;
+            Ans=Ans.substring(0,DecimalPos)+"."+Ans.substring(DecimalPos);
+        }
+        Ans=RemoveUnnecessaryZeros(Ans);
+        return Ans;
+    }
+
+    private String MulPositiveNums(String Str1,String Str2){
+        int DecPlaces1=DecimalPlaces(Str1);
+        int DecPlaces2=DecimalPlaces(Str2);
+        String a=RemoveDecimal(Str1);
+        String b=ReverseString(RemoveDecimal(Str2));
+        String Ans=""; 
+        int L1=a.length();
+        int L2=b.length();
+        for(int i=0;i<L2;i++){
+            String temp=AppendZeros(MulPosSingleDigit(a,b.charAt(i)),i);
+            Ans=(AddPositiveNums(Ans,temp));
+        }
+        while(Ans.length()<=(DecPlaces1+DecPlaces2)){
+            Ans="0"+Ans;
+        }    
+        int DecimalPos=Ans.length()-(DecPlaces1+DecPlaces2);
+        Ans=Ans.substring(0,DecimalPos)+"."+Ans.substring(DecimalPos);
+        Ans=RemoveUnnecessaryZeros(Ans);
+        return Ans;
+    }
 }
