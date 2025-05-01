@@ -81,8 +81,11 @@ public class AInteger{
      * @return Greatest Of The Numbers
      */
     private String MaxString(String Str1,String Str2){
-        int L1=Str1.length();
-        int L2=Str2.length();
+        String str1=RemoveZerosStart(Str1);
+        String str2=RemoveZerosStart(Str2);
+        int L1=str1.length();
+        int L2=str2.length();
+        //First Checking Lengths And Returning Approrpriate String
         if(L1>L2){
             return Str1;
         }
@@ -90,11 +93,12 @@ public class AInteger{
             return Str2;
         }
         else{
+            //Now Checking The Digits If Lengths Are Same
             for(int i=0;i<L1;i++){
-                if(Str1.charAt(i)-'0'>Str2.charAt(i)-'0'){
+                if(str1.charAt(i)-'0'>str2.charAt(i)-'0'){
                     return Str1;
                 }
-                else if(Str1.charAt(i)-'0'<Str2.charAt(i)-'0'){
+                else if(str1.charAt(i)-'0'<str2.charAt(i)-'0'){
                    return Str2;
                 }
             }
@@ -111,6 +115,7 @@ public class AInteger{
         boolean Negative=isNegative(Str);
         Str=Modulus(Str);                 
         int index=0;
+        //Checking For First Non-Zero Index
         while(index<Str.length()&&Str.charAt(index)=='0'){
             index++;
         }
@@ -118,6 +123,7 @@ public class AInteger{
             return "0";
         }
         String Ans;
+        //Properly Adding The - Sign
         if(Negative){
             Ans="-"+Str.substring(index);
         }
@@ -126,7 +132,7 @@ public class AInteger{
         }
         return Ans;
     }
-
+    
     /**
      * Additon Of Two Positive Integer Numbers
      * @param Str1 First Number String 
@@ -141,12 +147,14 @@ public class AInteger{
         String Ans="";
         int Carry=0;
         int maxLen;
+        //Finding Maximum of Two Lengths To Run Through The Loop
         if(L1>L2){
             maxLen=L1;
         }
         else{
             maxLen=L2;
         }
+        //Going Digit By Digit And Adding The Digits
         for(int i=0;i<maxLen;i++){
             int Digit1;
             int Digit2;
@@ -183,6 +191,7 @@ public class AInteger{
         String a,b;
         String Ans="";
         boolean ansNegative=false;
+        //Checking Whether Answer Should Contain Negative Sign Or Not
         if(MaxString(Str1, Str2).equals(Str1)){
             a=ReverseString(Str1);
             b=ReverseString(Str2);
@@ -196,12 +205,14 @@ public class AInteger{
         int L2=b.length();
         int Borrow=0;
         int maxLen;
+        //Finding Maximum of Two Lengths To Run Through The Loop
         if(L1>L2){
             maxLen=L1;
         }
         else{
             maxLen=L2;
         }
+        //Going Digit By Digit And Subtracting The Digits
         for(int i=0;i<maxLen;i++){
             int Digit1;
             int Digit2;
@@ -271,6 +282,8 @@ public class AInteger{
         String Ans="0"; 
         int L1=a.length();
         int L2=b.length();
+        //Each Digit Of One Operand Is Multiplied With The Entire Other Operand 
+        //And The Resulting Partial Products Are Then Added Together
         for(int i=0;i<L2;i++){
             String temp=MulPosSingleDigit(a,b.charAt(i));
             for(int j=0;j<i;j++){
@@ -289,14 +302,15 @@ public class AInteger{
      * @return (Str1/Str2)
      */
     private String DivPosNums(String Str1, String Str2){
-        if(Str2.equals("0")){
-            throw new ArithmeticException("Division by zero");
+        String b=RemoveZerosStart(Str2);
+        //Throwing Exception When Divisor is "0"
+        if(b.equals("0")){
+            throw new ArithmeticException("Division by zero error");
         }
         if(Str1.equals("0")){
             return "0";
         }
         String a=RemoveZerosStart(Str1);
-        String b=RemoveZerosStart(Str2);
         if(MaxString(a,b).equals(b)){
             if(a.equals(b)){
                 return "1";
@@ -305,6 +319,8 @@ public class AInteger{
         }
         String Ans="";
         String Current="";
+        //At Each Step,We Build A Current Dividend" 
+        //Until Dividend Becomes Greater Than or Equal To The Divisor Then Using Repeated Subtraction
         for(int i=0;i<a.length();i++){
             Current+=a.charAt(i);
             Current=RemoveZerosStart(Current);
@@ -320,7 +336,7 @@ public class AInteger{
         return Ans;
     }
 
-    
+
     /**
      * Addition Of Two AIntegers
      * @param x AInteger 
@@ -340,7 +356,7 @@ public class AInteger{
         else{
             Ans=AddPositiveNums(Modulus(this.Number),Modulus(x.Number));
         }
-        return parse(Ans);
+        return new AInteger(Ans);
     }
 
     /**
@@ -362,7 +378,7 @@ public class AInteger{
         else{
             Ans=SubPositiveNums(Modulus(this.Number),Modulus(x.Number));
         }
-        return parse(Ans);
+        return new AInteger(Ans);
     }
 
     /**
@@ -384,7 +400,7 @@ public class AInteger{
         else{
             Ans=MulPositiveNums(Modulus(this.Number),Modulus(x.Number));
         }
-        return parse(Ans);
+        return new AInteger(Ans);
     }
 
     /**
@@ -406,7 +422,7 @@ public class AInteger{
         else{
             Ans=DivPosNums(Modulus(this.Number),Modulus(x.Number));
         }
-        return parse(Ans);
+        return new AInteger(Ans);
     }
 
     public String toString(){
