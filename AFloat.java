@@ -2,12 +2,16 @@ package arbitraryarithmetic;
 public class AFloat{
     public String Number;
     public boolean numNegative=false;
-
+    /**
+     *Default constructor AFloat() that initializes the instance with value 0. 
+     */
     public AFloat(){
         this.Number="0.0";
     }
-    
-
+    /**
+     * Constructor AInteger(String Str) That Initializes The Instance By The Number Whose String Representation Is Given By 'Str'.
+     * @param Str String Representing A Float
+     */
     public AFloat(String Str){
         boolean Decimal=false;
         for(int i=0;i<Str.length();i++){
@@ -25,16 +29,29 @@ public class AFloat{
             numNegative=true;
         }
     }
-
+    /**
+     * Copy Constructor That Creates An Instance Of AFloat
+     * @param x Another AFloat Object 
+     */
     public AFloat(AFloat x){
         this.Number=x.Number;
         this.numNegative=x.numNegative;
     }
 
+    /**
+     * Parse A Static Function That Returns An Instance Of AFloat Class.
+     * @param Str Input
+     * @return Instance Of AFloat Class
+     */
     public static AFloat parse(String Str){
         return new AFloat(Str);
     }
 
+    /**
+     * Check Whether A String Is Negative Or Positive
+     * @param Str Input
+     * @return True If Negative And False If Positive
+     */
     private boolean isNegative(String Str){
         if(Str.charAt(0)=='-'){
             return true;
@@ -42,6 +59,11 @@ public class AFloat{
         return false;
     }
 
+    /**
+     * Check Whetehr A String Is Zero Or Not
+     * @param Str Input
+     * @return True If Zero And False If Not Zero
+     */
     private boolean isZero(String Str){
         int NumZeros=0;
         for(int i=0;i<Str.length();i++){
@@ -55,6 +77,11 @@ public class AFloat{
         return false;
     }
 
+    /**
+     * Reverse Of A String 
+     * @param Str Input
+     * @return Reverse Of Input String
+     */
     private String ReverseString(String Str) {
         String Ans="";
         for(int i=Str.length()-1;i>=0;i--){
@@ -63,6 +90,11 @@ public class AFloat{
         return Ans;  
     }
 
+    /**
+     * Absolute Part Of The Input String
+     * @param Str Input
+     * @return Absolute Value
+     */
     private String Modulus(String Str){
         if(isNegative(Str)){
             return Str.substring(1);
@@ -70,9 +102,18 @@ public class AFloat{
         return Str;
     }
 
+    /**
+     * Greatest Of The Two Strings Without Considering Sign
+     * @param Str1 First Number String
+     * @param Str2 Second Number String
+     * @return Greatest Of The Numbers
+     */
     private String MaxString(String Str1,String Str2){
-        int L1=Str1.length();
-        int L2=Str2.length();
+        String str1=RemoveZerosStart(Str1);
+        String str2=RemoveZerosStart(Str2);
+        int L1=str1.length();
+        int L2=str2.length();
+        //First Checking Lengths And Returning Approrpriate String
         if(L1>L2){
             return Str1;
         }
@@ -80,11 +121,12 @@ public class AFloat{
             return Str2;
         }
         else{
+            //Now Checking The Digits If Lengths Are Same
             for(int i=0;i<L1;i++){
-                if(Str1.charAt(i)-'0'>Str2.charAt(i)-'0'){
+                if(str1.charAt(i)-'0'>str2.charAt(i)-'0'){
                     return Str1;
                 }
-                else if(Str1.charAt(i)-'0'<Str2.charAt(i)-'0'){
+                else if(str1.charAt(i)-'0'<str2.charAt(i)-'0'){
                    return Str2;
                 }
             }
@@ -92,6 +134,11 @@ public class AFloat{
         return Str1;
     }
 
+    /**
+     * Remove Decimal Point From The String('.')
+     * @param Str Input
+     * @return Str After Removing The Decimal Point
+     */
     private String RemoveDecimal(String Str){
         String Ans="";
         for(int i=0;i<Str.length();i++){
@@ -103,6 +150,11 @@ public class AFloat{
         return Ans;
     }
 
+    /**
+     * To Get The Number of Decimal Places In The Number String
+     * @param Str Input
+     * @return Numer Of DecimalPlaces In The Number String
+     */
     private int DecimalPlaces(String Str){
         int DecimalPos=-1;
         for(int i=0;i<Str.length();i++){
@@ -116,6 +168,12 @@ public class AFloat{
         return Str.length()-DecimalPos-1;
     }
 
+    /**
+     * To Add Zeros At The End(After The Decimal Part)
+     * @param Str Input 
+     * @param numZeros Number Of Zeros To End
+     * @return Str After Adding Zeros
+     */
     private String AppendZeros(String Str,int numZeros){
         String Ans=Str;
         for(int i=0;i<numZeros;i++){
@@ -124,10 +182,16 @@ public class AFloat{
         return Ans;
     }
 
+    /**
+     * Removing Zeros From The Start Of The Number
+     * @param Str Input
+     * @return String Without Leading Zeros
+     */
     private String RemoveZerosStart(String Str){
         boolean Negative=isNegative(Str);
         Str=Modulus(Str);                 
         int index=0;
+        //Checking For First Non-Zero Index
         while(index<Str.length()&&Str.charAt(index)=='0'){
             index++;
         }
@@ -135,6 +199,7 @@ public class AFloat{
             return "0";
         }
         String Ans;
+        //Properly Adding The - Sign
         if(Negative){
             Ans="-"+Str.substring(index);
         }
@@ -144,6 +209,11 @@ public class AFloat{
         return Ans;
     }
 
+    /**
+     * Removing Zeros From The Start Of The Number And Last Of A Decimal Number
+     * @param Str Input
+     * @return String Without Unnecessary Zeros
+     */
     private String RemoveUnnecessaryZeros(String Str){
         boolean Negative=isNegative(Str);
         Str=Modulus(Str);
@@ -155,6 +225,7 @@ public class AFloat{
             }
             return Ans;
         }
+        //Using RemoveZerosStart For Real Part And Reverse Of Decimal Part
         String RealPart=Str.substring(0, Str.length()-DecPlaces-1);
         String DecPart=Str.substring(Str.length()-DecPlaces);
         RealPart=RemoveZerosStart(RealPart);
@@ -163,16 +234,42 @@ public class AFloat{
             DecPart="0";
         }
         String Ans=RealPart+"."+DecPart;
-        if (Negative&&!Ans.equals("0.0")&&!Ans.equals("0")) {
+        //Adding Appropriate Negative Sign
+        if (Negative && !Ans.equals("0.0")&& !Ans.equals("0")) {
             Ans="-"+Ans;
         }
         return Ans;
     }
 
+    /**
+     * Truncates Answer To 30 Decimals If Input Has More Than 30 Decimals Else Returns Same String
+     * @param Str Input 
+     * @return Truncated String To 30 Decimal Places If Necessary
+     */
+    private String TruncateTo30Decimal(String Str){
+        int DecPlaces = DecimalPlaces(Str);
+        if(DecPlaces<=30){
+            return Str;
+        }
+        int dotIndex=Str.indexOf('.');
+        if(dotIndex==-1){
+        return Str;
+        }
+    return Str.substring(0,dotIndex+1+30);
+    }
+    
+
+    /**
+     * Additon Of Two Positive Float Numbers
+     * @param Str1 First Number String 
+     * @param Str2 Second Number String
+     * @return (Str1+Str2)
+     */
     private String AddPositiveNums(String Str1, String Str2) {
         int DecPlaces1=DecimalPlaces(Str1);
         int DecPlaces2=DecimalPlaces(Str2);
         int MaxDecPlaces;
+        //Finding Maximum Decimalplaces
         if(DecPlaces1>DecPlaces2){
             MaxDecPlaces=DecPlaces1;
         }
@@ -180,12 +277,14 @@ public class AFloat{
             MaxDecPlaces=DecPlaces2;
         }
         String a=Str1,b=Str2;
-        if (MaxDecPlaces>DecPlaces1){
+        //Adding Appropriate Number Of Zeros For Addition
+        if(MaxDecPlaces>DecPlaces1){
             a=AppendZeros(Str1,MaxDecPlaces-DecPlaces1);
         }
         if (MaxDecPlaces>DecPlaces2){
             b=AppendZeros(Str2,MaxDecPlaces-DecPlaces2);
         }
+        //Removing Decimal Point To Do Integer Addition
         a=ReverseString(RemoveDecimal(a));
         b=ReverseString(RemoveDecimal(b));
         int L1=a.length();
@@ -193,12 +292,14 @@ public class AFloat{
         String Ans="";
         int Carry=0;
         int maxLen;
+        //Finding Maximum of Two Lengths To Run Through The Loop
         if(L1>L2){
             maxLen=L1;
         }
         else{
             maxLen=L2;
         }
+        //Going Digit By Digit And Adding The Digits
         for(int i=0;i<maxLen;i++){
             int Digit1;
             int Digit2;
@@ -219,6 +320,7 @@ public class AFloat{
             Ans+=c;
         }
         Ans=ReverseString(Ans);
+        //Adding Decimal Point To The Integer Ans 
         if(MaxDecPlaces>0){
             int DecimalPos=Ans.length()-MaxDecPlaces;
             Ans=Ans.substring(0,DecimalPos)+"."+Ans.substring(DecimalPos);
@@ -227,6 +329,12 @@ public class AFloat{
         return Ans;
     }
 
+    /**
+     * Subtraction Of Two Positive Numbers (First-Second)
+     * @param Str1 First Number String
+     * @param Str2 Second Number String
+     * @return (Str1-Str2)
+     */
     private String SubPositiveNums(String Str1,String Str2){
         if(Str1.equals(Str2)){
             return "0";
@@ -234,6 +342,7 @@ public class AFloat{
         int DecPlaces1=DecimalPlaces(Str1);
         int DecPlaces2=DecimalPlaces(Str2);
         int MaxDecPlaces;
+        //Finding Maximum Decimalplaces
         if(DecPlaces1>DecPlaces2){
             MaxDecPlaces=DecPlaces1;
         }
@@ -241,17 +350,20 @@ public class AFloat{
             MaxDecPlaces=DecPlaces2;
         }
         String tempa=Str1,tempb=Str2;
-        if (MaxDecPlaces>DecPlaces1){
+        //Adding Appropriate Number Of Zeros For Subtraction
+        if(MaxDecPlaces>DecPlaces1){
             tempa=AppendZeros(Str1,MaxDecPlaces-DecPlaces1);
         }
         if (MaxDecPlaces>DecPlaces2){
             tempb=AppendZeros(Str2,MaxDecPlaces-DecPlaces2);
         }
+        //Removing The Decimal To Do Integer Subtraction
         tempa=RemoveDecimal(tempa);
         tempb=RemoveDecimal(tempb);
         String a,b;
         String Ans="";
         boolean ansNegative=false;
+        //Checking Whether To Have Negative Sign Or Not
         if(MaxString(tempa,tempb).equals(tempa)){
             a=ReverseString(tempa);
             b=ReverseString(tempb);
@@ -265,12 +377,14 @@ public class AFloat{
         int L2=b.length();
         int Borrow=0;
         int maxLen;
+        //Finding Maximum of Two Lengths To Run Through The Loop
         if(L1>L2){
             maxLen=L1;
         }
         else{
             maxLen=L2;
         }
+        //Going Digit By Digit And Subtracting The Digits
         for(int i=0;i<maxLen;i++){
             int Digit1;
             int Digit2;
@@ -298,6 +412,7 @@ public class AFloat{
             }
         }
         Ans=ReverseString(Ans);
+        //Adding Decimal Point To Intger Ans
         if(MaxDecPlaces>0){
             int DecimalPos=Ans.length()-MaxDecPlaces;
             Ans=Ans.substring(0,DecimalPos)+"."+Ans.substring(DecimalPos);
@@ -309,6 +424,12 @@ public class AFloat{
         return Ans;
     }
 
+    /**
+     * Multplication Of A Float Number With A Digit
+     * @param Str Input Number String
+     * @param Digit Input Char Single Digit
+     * @return (Str*digit)
+     */
     private String MulPosSingleDigit(String Str1,char Digit){
         int DecPlaces=DecimalPlaces(Str1);
         String a=ReverseString(RemoveDecimal(Str1));
@@ -333,6 +454,12 @@ public class AFloat{
         return Ans;
     }
 
+    /**
+     * Multiplication Of Two Float Numbers
+     * @param Str1 First Number String
+     * @param Str2 Second Number String
+     * @return (Str1*Str2)
+     */
     private String MulPositiveNums(String Str1,String Str2){
         int DecPlaces1=DecimalPlaces(Str1);
         int DecPlaces2=DecimalPlaces(Str2);
@@ -341,6 +468,8 @@ public class AFloat{
         String Ans=""; 
         int L1=a.length();
         int L2=b.length();
+        //Each Digit Of One Operand Is Multiplied With The Entire Other Operand 
+        //And The Resulting Partial Products Are Then Added Together
         for(int i=0;i<L2;i++){
             String temp=AppendZeros(MulPosSingleDigit(a,b.charAt(i)),i);
             Ans=(AddPositiveNums(Ans,temp));
@@ -352,5 +481,174 @@ public class AFloat{
         Ans=Ans.substring(0,DecimalPos)+"."+Ans.substring(DecimalPos);
         Ans=RemoveUnnecessaryZeros(Ans);
         return Ans;
+    }
+    
+    /**
+     * Float Divison Of Two Numbers  
+     * @param Str1 First Number String 
+     * @param Str2 Second Number String
+     * @return (Str1/Str2)
+     */
+    private String DivPosNums(String Str1,String Str2){
+        //Throwing Excption If The Divisor Is Zero
+        if(isZero(Str2)){
+            throw new ArithmeticException("Division by zero error");
+        }
+        if(isZero(Str1)){
+            return "0.0";
+        }
+        int DecPlaces1=DecimalPlaces(Str1);
+        int DecPlaces2=DecimalPlaces(Str2);
+        //Removing Decimal To Do Integer Divison
+        String a=RemoveDecimal(Str1);
+        String b=RemoveDecimal(Str2);
+        String Ans="";
+        a=RemoveZerosStart(a);
+        b=RemoveZerosStart(b);
+        //Adding Appropriate Number Of Zeros
+        if(DecPlaces1>DecPlaces2){
+            b=AppendZeros(b,DecPlaces1-DecPlaces2);
+        }
+        else if(DecPlaces1<DecPlaces2){
+            a=AppendZeros(a,DecPlaces2-DecPlaces1);
+        }
+        String Current="";
+        //Divison For Integer Part
+        for(int j=0;j<a.length();j++){
+            int count=0;
+            Current+=a.charAt(j);
+            while(MaxString(Current,b).equals(Current)){
+                Current=RemoveZerosStart(Current);
+                Current=SubPositiveNums(Current,b);
+                count++;
+            }
+            Ans+=Integer.toString(count);
+        }
+        //Adding Decimal Point To Answer
+        Ans+=".";
+        Current+="0";
+        //Keeping Precision
+        int precision=30;
+        //Changing Precision Because For Divison Of 1 and 10^31 It Should Give 0.00...(30 Zeros)
+        if(b.length()>30){
+            precision=b.length();
+        }
+        //Divison For Fractional part
+        for(int i=0;i<precision;i++) {
+            Current=RemoveZerosStart(Current);
+            int count=0;
+            while(MaxString(Current,b).equals(Current)){
+                Current=SubPositiveNums(Current,b);
+                count++;
+            }
+            Current+="0";
+            Ans+=Integer.toString(count);
+        }
+        Ans=RemoveUnnecessaryZeros(Ans);
+        if(Ans.charAt(0)=='.'){
+            Ans="0"+Ans;
+        }
+        return Ans;
+    }
+
+
+    /**
+     * Addition Of Two AIntegers
+     * @param x AFloat 
+     * @return (this.Number+x.Number)
+     */
+    public AFloat add(AFloat x){
+        String Ans;
+        if((this.numNegative)&&(x.numNegative)){
+            Ans="-"+(AddPositiveNums(Modulus(x.Number),Modulus(this.Number)));
+        }
+        else if((!this.numNegative)&&(x.numNegative)){
+            Ans=SubPositiveNums(Modulus(this.Number),Modulus(x.Number));
+        }
+        else if((this.numNegative)&&(!x.numNegative)){
+            Ans=SubPositiveNums(Modulus(x.Number),Modulus(this.Number));
+        }
+        else{
+            Ans=AddPositiveNums(Modulus(this.Number),Modulus(x.Number));
+        }
+        //Truncating To 30 Decimal
+        Ans=TruncateTo30Decimal(Ans);
+        return parse(Ans);
+    }
+
+    /**
+     * Subraction Of Two AIntegers
+     * @param x AFloat
+     * @return (this.Number-x.Number)
+     */
+    public AFloat sub(AFloat x){
+        String Ans;
+        if((this.numNegative)&&(x.numNegative)){
+            Ans=SubPositiveNums(Modulus(x.Number),Modulus(this.Number));
+        }
+        else if((!this.numNegative)&&(x.numNegative)){
+            Ans=AddPositiveNums(Modulus(this.Number),Modulus(x.Number));
+        }
+        else if((this.numNegative)&&(!x.numNegative)){
+            Ans="-"+(AddPositiveNums(Modulus(this.Number),Modulus(x.Number)));
+        }
+        else{
+            Ans=SubPositiveNums(Modulus(this.Number),Modulus(x.Number));
+        }
+        //Truncating To 30 Decimal
+        Ans=TruncateTo30Decimal(Ans);
+        return parse(Ans);
+    }
+
+    /**
+     * Multplication Of Two AIntegers
+     * @param x AFloat
+     * @return ((this.Number)*(x.Number))
+     */
+    public AFloat mul(AFloat x){
+        String Ans;
+        if((this.numNegative)&&(x.numNegative)){
+            Ans=MulPositiveNums(Modulus(this.Number),Modulus(x.Number));
+        }
+        else if((!this.numNegative)&&(x.numNegative)){
+            Ans="-"+(MulPositiveNums(Modulus(this.Number),Modulus(x.Number)));
+        }
+        else if((this.numNegative)&&(!x.numNegative)){
+            Ans="-"+(MulPositiveNums(Modulus(this.Number),Modulus(x.Number)));
+        }
+        else{
+            Ans=MulPositiveNums(Modulus(this.Number),Modulus(x.Number));
+        }
+        //Truncating To 30 Decimal
+        Ans=TruncateTo30Decimal(Ans);
+        return parse(Ans);
+    }
+
+    /**
+     * Divison Of Two AIntegers
+     * @param x AFloat
+     * @return ((this.Number)/(x.Number))
+     */
+    public AFloat div(AFloat x){
+        String Ans;
+        if((this.numNegative)&&(x.numNegative)){
+            Ans=DivPosNums(Modulus(this.Number),Modulus(x.Number));
+        }
+        else if((!this.numNegative)&&(x.numNegative)){
+            Ans="-"+(DivPosNums(Modulus(this.Number),Modulus(x.Number)));
+        }
+        else if((this.numNegative)&&(!x.numNegative)){
+            Ans="-"+(DivPosNums(Modulus(this.Number),Modulus(x.Number)));
+        }
+        else{
+            Ans=DivPosNums(Modulus(this.Number),Modulus(x.Number));
+        }
+        //Truncating To 30 Decimal
+        Ans=TruncateTo30Decimal(Ans);
+        return parse(Ans);
+    }
+
+    public String toString(){
+        return this.Number;
     }
 }
