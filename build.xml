@@ -1,0 +1,42 @@
+<project name="Arbitrary Precision Arithmetic" default="run">
+    <!-- Project directory structure -->
+    <property name="projectfile" value="." />
+    <property name="srcdir" value="${projectfile}/JavaSrc" />
+    <property name="bindir" value="${projectfile}/JavaClass" />
+    <property name="jardir" value="${projectfile}/arbitraryarithmetic" />
+    <property name="jarfile" value="aarithmetic.jar" />
+    <property name="jarpath" value="${jardir}/${jarfile}" />
+
+    <!-- Compile Java sources -->
+    <target name="compile">
+        <mkdir dir="${bindir}" />
+        <javac srcdir="${srcdir}" destdir="${bindir}" includeantruntime="false" />
+    </target>
+
+    <!-- Create JAR file -->
+    <target name="create-jar" depends="compile">
+        <mkdir dir="${jardir}" />
+        <jar destfile="${jarpath}" basedir="${bindir}">
+            <exclude name="MyInfArith.class" />
+        </jar>
+    </target>
+
+    <!-- Run using compiled .class files -->
+    <target name="run" depends="compile">
+        <java classname="MyInfArith" fork="true" failonerror="true">
+            <classpath>
+                <pathelement path="${bindir}" />
+            </classpath>
+            <arg value="${arg1}" />
+            <arg value="${arg2}" />
+            <arg value="${arg3}" />
+            <arg value="${arg4}" />
+        </java>
+    </target>
+
+
+    <!-- Clean Class Files -->
+    <target name="clean">
+        <delete dir="${bindir}" />
+    </target>
+</project>
