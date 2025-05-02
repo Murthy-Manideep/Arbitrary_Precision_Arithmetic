@@ -356,7 +356,7 @@ public class AInteger{
         else{
             Ans=AddPositiveNums(Modulus(this.Number),Modulus(x.Number));
         }
-        return new AInteger(Ans);
+        return parse(Ans);
     }
 
     /**
@@ -378,7 +378,7 @@ public class AInteger{
         else{
             Ans=SubPositiveNums(Modulus(this.Number),Modulus(x.Number));
         }
-        return new AInteger(Ans);
+        return parse(Ans);
     }
 
     /**
@@ -400,7 +400,7 @@ public class AInteger{
         else{
             Ans=MulPositiveNums(Modulus(this.Number),Modulus(x.Number));
         }
-        return new AInteger(Ans);
+        return parse(Ans);
     }
 
     /**
@@ -422,7 +422,7 @@ public class AInteger{
         else{
             Ans=DivPosNums(Modulus(this.Number),Modulus(x.Number));
         }
-        return new AInteger(Ans);
+        return parse(Ans);
     }
 
     public String toString(){

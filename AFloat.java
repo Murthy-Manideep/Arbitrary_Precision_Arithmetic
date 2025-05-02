@@ -60,18 +60,21 @@ public class AFloat{
     }
 
     /**
-     * Check Whetehr A String Is Zero Or Not
+     * Check Whetehr A String Is Zero Or Not For Decimal Point Numbers
      * @param Str Input
      * @return True If Zero And False If Not Zero
      */
     private boolean isZero(String Str){
+        //Because The Input Can Be -000.00
+        String str=Modulus(Str);
         int NumZeros=0;
-        for(int i=0;i<Str.length();i++){
-            if(Str.charAt(i)=='0'){
+        for(int i=0;i<str.length();i++){
+            if(str.charAt(i)=='0'){
                 NumZeros++;
             }
         }
-        if(Str.length()-1==NumZeros){
+        //Becuase The Number Will Contains One Decimal Point.
+        if(str.length()-1==NumZeros){
             return true;
         }
         return false;
@@ -247,15 +250,15 @@ public class AFloat{
      * @return Truncated String To 30 Decimal Places If Necessary
      */
     private String TruncateTo30Decimal(String Str){
-        int DecPlaces = DecimalPlaces(Str);
+        int DecPlaces=DecimalPlaces(Str);
         if(DecPlaces<=30){
             return Str;
         }
         int dotIndex=Str.indexOf('.');
         if(dotIndex==-1){
-        return Str;
+            return Str;
         }
-    return Str.substring(0,dotIndex+1+30);
+        return Str.substring(0,dotIndex+1+30);
     }
     
 
@@ -417,10 +420,10 @@ public class AFloat{
             int DecimalPos=Ans.length()-MaxDecPlaces;
             Ans=Ans.substring(0,DecimalPos)+"."+Ans.substring(DecimalPos);
         }
+        Ans=RemoveUnnecessaryZeros(Ans);
         if(ansNegative){
             Ans='-'+Ans;
         }
-        Ans=RemoveUnnecessaryZeros(Ans);
         return Ans;
     }
 
@@ -522,7 +525,7 @@ public class AFloat{
                 Current=SubPositiveNums(Current,b);
                 count++;
             }
-            Ans+=Integer.toString(count);
+            Ans+=((char) (count+'0'));
         }
         //Adding Decimal Point To Answer
         Ans+=".";
@@ -542,7 +545,7 @@ public class AFloat{
                 count++;
             }
             Current+="0";
-            Ans+=Integer.toString(count);
+            Ans+=((char) (count+'0'));
         }
         Ans=RemoveUnnecessaryZeros(Ans);
         if(Ans.charAt(0)=='.'){
