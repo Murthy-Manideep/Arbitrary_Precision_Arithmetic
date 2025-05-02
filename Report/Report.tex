@@ -1,0 +1,402 @@
+\documentclass{article}
+\usepackage{amsmath}
+\usepackage{tikz}
+ \usepackage{float}
+
+\begin{document}
+
+\title{Arbitrary Precision Arithmetic}
+\author{CS24BTECH11039}
+\date{May 2025}
+\maketitle
+
+\section{Introduction}
+Arbitrary precision arithmetic using this file should allow one to compute any expression involving arbitrarily large integers and arbitrarily large floating point precision numbers with arbitrary precision. All the operations that you
+implement should preserve the complete information of the number and
+should not introduce any kind of round-off errors.\\
+
+When we have a large number they may cause overflow issues.Arbitrary precision arithmetic solves this issue by storing the given number in the form of string and performing different operations like addition, subtraction, multiplication and division.\\
+
+This project provides support for arbitrary precision arithmetic, enabling the addition, subtraction, multiplication, and division of both integers and real numbers.You can get up to 30 decimal precision without any roundoff errors.
+
+\section{Folder Structure}
+\begin{center}
+\begin{verbatim}
+Arbitrary Precision Arithmetic/
+                                JavaSrc/arbitraryarithmetic/AFloat.java, AInteger.java
+                                        MyInfArith.java
+                                JavaClass
+                                arbitraryarithmetic/aarithmetic.jar
+                                python_script.py
+                                build.xml
+                                README.md
+                                Report/Report.pdf, Report.tex
+Files in JAR: META-INF/
+              META-INF/MANIFEST.MF
+              arbitraryarithmetic/
+              arbitraryarithmetic/AFloat.class
+              arbitraryarithmetic/AInteger.class
+\end{verbatim}
+\end{center}
+
+\newpage
+\section*{Code Overview}
+Implementation of an arbitrary-precision arithmetic library in Java
+uses OOP concepts.Given two strings as input, it had support
+for addition, subtraction, multiplication, and division, for both integer and
+float data types. The answer will be printed on the terminal screen.
+By using OOP concepts By using OOP, we gain Encapsulation, Inheritance and Polymorphism
+
+\begin{itemize}
+    \item \textbf{AInteger.java}: This class handles arbitrary-precision integers, providing methods for addition, subtraction, multiplication, and division.
+    \item \textbf{AFloat.java}: This class handles arbitrary-precision floating-point numbers, ensuring precision even for very large or very small decimal values.
+    \item \textbf{MyInfArith.java}: This is the main file that runs the code.
+\end{itemize}
+
+
+\section{AInteger.java : Class for Integers}
+The AInteger class handles arbitary precision for integers and provides methods for addition, subtraction, multplication and divison.
+\subsection*{Constructors}
+\begin{itemize}
+    \item Default constructor: AInteger() that initializes the instance with value 0.
+    \item Constructor: AInteger(String s) that initializes the instance by the number whose string representation is given by s. For example: AInteger("-34534536454").
+    \item Copy constructor: Copy constructor that creates an instance of AInteger.
+\end{itemize}
+
+\subsection*{Methods}
+
+Integers are represented as strings.
+
+\begin{itemize}
+    \item \textbf{parse(String Str)}: A static function that returns an instance of AInteger. \\
+    Implementation: It creates and returns a new AInteger object using the input string.
+
+    \item \textbf{isNegative(String Str)}: Returns whether a number is negative or not. \\
+    Implementation: Checks if the first character of the string is a minus sign.
+
+    \item \textbf{ReverseString(String Str)}: Returns the reverse of the input string. \\
+    \textit{Implementation:} Iterates from end to start of the string and appends characters to a new string.
+
+    \item \textbf{Modulus(String Str)}: Returns the absolute value of the number. \\
+    Implementation: Removes the negative sign from the string, if present.
+
+    \item \textbf{MaxString(String Str1, String Str2)}: Returns the maximum of two input numbers. \\
+    Implementation: Compares the lengths first.if equal, compares digit by digit from left to right (By removing zeros from start and returning appropriate string with zeros).
+
+    \item \textbf{RemoveZerosStart(String Str)}: Returns the number after removing zeros from the start. \\
+    Implementation: Skips all leading '0' characters until the first non-zero digit is found.
+
+    \item \textbf{AddPositiveNums(String Str1, String Str2)}: Private method that adds two positive numbers. \\
+    Implementation: Performs digit-by-digit addition from the right, storing carry as needed.
+
+    \item \textbf{SubPositiveNums(String Str1, String Str2)}: Private method that subtracts one positive number from another. \\
+    Implementation: Checks which is greater and do subtraction bigger-smaller. Then subtracts digit-by-digit with borrow if needed.
+
+    \item \textbf{MulPosSingleDigit(String Str, char Digit)}: Private method for multiplying a number with a single digit. \\
+    \textit{Implementation:} Multiplies each digit of the string with the given digit, handling carry at each step.
+
+    \item \textbf{MulPositiveNums(String Str1, String Str2)}: Private method that multiplies two positive numbers. \\
+    Implementation: The method uses single-digit multiplication for each digit of one number with the entire other number. The partial results are then shifted according to their place value and added together to get the final product.
+
+    \item \textbf{DivPosNums(String Str1, String Str2)}: Private method that divides two positive numbers. \\
+    Implementation: The integer part of the division is computed using a manual long division approach. Each digit from the dividend is processed one by one. A count of how many times the divisor can be subtracted from the current value is maintained and appended to the result string.
+
+    \item \textbf{add(AInteger x)}: Adds the current number with another AInteger object and returns the result as a new AInteger. \\
+    Implementation: Handles sign cases individually. If both numbers are negative, their absolute values are added and a negative sign is prefixed. If one is negative, subtraction is performed accordingly. If both are positive, standard addition of absolute values is performed.
+
+    \item \textbf{sub(AInteger x)}: Subtracts another AInteger object from the current number and returns the result as AInteger. \\
+    Implementation: Handles signs explicitly. If both numbers are negative, subtraction is performed in reverse. If the second number is negative, their absolute values are added. If the first number is negative and the second is positive, the result is negative addition of their absolute values. Otherwise, standard subtraction is performed.
+
+    \item \textbf{mul(AInteger x)}: Multiplies the current number with another AInteger and returns the result as a new AInteger. \\
+    Implementation: Multiplies the absolute values using the helper method. Determines the sign of the result based on the signs of the operands..
+
+    \item \textbf{div(AInteger x)}: Divides the current number by another AInteger and returns the result. \\
+    Implementation: Performs division using only the absolute values. Determines the sign of the result based on the signs of the operands.
+
+    \item \textbf{toString()}: Returns the string representation of the number.
+\end{itemize}
+
+\subsection*{UML Diagram}
+\begin{table}[H]
+\centering
+\begin{tabular}{|c|}
+\hline
+\textbf{AInteger} \\
+\hline
+\(+\) Number : String \\
+\(+\) numNegative : boolean \\
+\hline
+\(+\) AInteger() \\
+\(+\) AInteger(String) \\
+\(+\) AInteger(AInteger) \\
+\underline{+ parse(String) : AInteger} \\
+\(-\) isNegative(String) : boolean \\
+\(-\) ReverseString(String) : String \\
+\(-\) Modulus(String) : String \\
+\(-\) MaxString(String, String) : String \\
+\(-\) RemoveZerosStart(String) : String \\
+\(-\) AddPositiveNums(String, String) : String \\
+\(-\) SubPositiveNums(String, String) : String \\
+\(-\) MulPosSingleDigit(String, char) : String \\
+\(-\) MulPositiveNums(String, String) : String \\
+\(-\) DivPosNums(String, String) : String \\
+\(+\) add(AInteger) : AInteger \\
+\(+\) sub(AInteger) : AInteger \\
+\(+\) mul(AInteger) : AInteger \\
+\(+\) div(AInteger) : AInteger \\
+\(+\) toString() : String \\
+\hline
+\end{tabular}
+\end{table}
+
+\newpage
+\section{AFloat.java : Class for Floating point Numbers}
+The AFloat class handles arbitary precision for floating point numbers and provide methods for addition,subtraction,multplication and divison.
+\subsection*{Constructors}
+\begin{itemize}
+    \item Default constructor: AFloat() that initializes the instance with value 0.0.
+    \item Constructor: AFloat(string s) that initializes the instance by the number whose string representation is given by ’s’. Eg: AFloat(“-345.32393298”);
+    \item Copy constructor: Copy constructor that creates an instance of AFloat.
+\end{itemize}
+\subsection*{Methods}
+
+Floating point numbers are represented as strings.
+
+\begin{itemize}
+    \item \textbf{parse(String Str)}: A static function that returns an instance of AFloat. \\
+    Implementation: It creates and returns a new AFloat object using the input string.
+
+    \item \textbf{isNegative(String Str)}: Returns whether a number is negative or not. \\
+    Implementation: Checks if the first character of the string is a minus sign.
+
+    \item \textbf{isZero(String Str)}: Returns whether a number is zero or not.
+    Implementation: Counts the number of zeros and number of zeros plus 1 should be equal to length of input.
+
+    \item \textbf{Modulus(String Str)}: Returns the absolute value of the number. \\
+    Implementation: Removes the negative sign from the string, if present.
+
+    \item \textbf{ReverseString(String Str)}: Returns the reversed string without. \\
+    Implementation: Iterates from end to start of the string and appends characters to a new string.
+
+    \item \textbf{MaxString(String Str1, String Str2)}: Returns the maximum of two Integer inputs. \\
+    Implementation: Compares the lengths first.if equal, compares digit by digit from left to right (By removing zeros from start and returning appropriate string with zeros).
+
+    \item \textbf{RemoveDecimal(String Str)}: Returns the number by removing the decimal.\\
+    Implementation: Adds all Characters to the new string except the '.' char.
+
+    \item \textbf{DecimalPlaces(String Str)}: Returns the number of decimal places in the input string.
+    Implementation: Get the index of '.' and find the number of places using Str.length()-decimalposition-1.
+
+    \item \textbf{AppendZeros(String Str,int numZeros)}: Returns the input after appending a specified number of zeros to the end of the string.
+
+    \item \textbf{RemoveZerosStart(String Str)}: Returns the number after removing leading zeros. \\
+    Implementation: Skips all leading '0' characters until the first non-zero digit is found.
+    
+    \item \textbf{RemoveUnnecessaryZeros(String Str)}: Returns the number after Removing both leading and trailing zeros appropriately for decimal numbers.
+    Implementation: Skips all leading '0' charcters until the first non-zero digit is found.And zeros form the last of string.
+
+    \item \textbf{AddPositiveNums(String Str1, String Str2)}: Private method that adds two positive floating point numbers. \\
+    Implementation: Performs digit-by-digit addition from the right, storing carry as needed.
+
+    \item \textbf{SubPositiveNums(String Str1, String Str2)}: Private method that subtracts two positive floating point numbers. \\
+    Implementation: First do the subraction of numbers without decimal, using how many decimal places add the decimal.
+
+    \item \textbf{MulPosSingleDigit(String Str, char Digit)}: Private method for multiplying positive a floating point number with a positive single digit. \\
+    Implementation: Remove decimal and do integer multplication implementation and add decimal based on number of decimal places.
+
+    \item \textbf{MulPositiveNums(String Str1, String Str2)}: Private method that multiplies two positive floating point numbers. \\
+    Implementation: Remove decimals from both numbers and do integer multplication implementation and add decimal based on number of decimals.
+
+    \item \textbf{DivPosNums(String Str1,String Str2)}: Private method that
+    divides the two positive floating point numbers.
+    Implementation:The integer part of the division is computed using a manual long division approach. Each digit from the dividend is processed one by one. A count of how many times the divisor can be subtracted from the current value is maintained and appended to the result string.\\
+    After placing a decimal point in the result, the method continues the division to compute the fractional part. This is done by appending zeros to the remainder and repeating the subtraction process, maintaining a precision of 30 digits after the decimal point by default. If the divisor is longer than 30 digits, the precision is adjusted accordingly.
+
+    \item \textbf{add(AFloat x)}: Adds the current number with another AFloat object and returns the result as a new AFloat. \\
+    Implementation: Handles sign cases individually.
+
+    \item \textbf{sub(AFloat x)}: Subtracts another AFloat object from the current number and returns the result as AFloat. \\
+    Implementation: Handles sign cases individually.
+
+    \item \textbf{mul(AFloat x)}: Multiplies the current number with another AFloat and returns the result as a new AFloat. \\
+    Implementation: Multiplies the absolute values using the helper method. Determines the sign of the result based on the signs of the operands.
+
+    \item \textbf{div(AFloat x)}: Divides the current number by another AFloat and returns the result. \\
+    Implementation: Performs division using only the absolute values. Determines the sign of the result based on the signs of the operands.
+
+    \item \textbf{toString()}: Returns the string representation of the number.
+    
+\end{itemize}
+
+\subsection*{UML Diagram}
+\begin{table}[H]
+\centering
+\begin{tabular}{|c|}
+\hline
+\textbf{AFloat} \\
+\hline
+\(+\) Number : String \\
+\(+\) numNegative : boolean \\
+\hline
+\(+\) AFloat() \\
+\(+\) AFloat(String) \\
+\(+\) AFloat(AFloat) \\
+\underline{+ parse(String) : AFloat} \\
+\(-\) isNegative(String) : boolean \\
+\(-\) isZero(String) : boolean \\
+\(-\) ReverseString(String) : String \\
+\(-\) Modulus(String) : String \\
+\(-\) MaxString(String, String) : String \\
+\(-\) RemoveDecimal(String) : String \\
+\(-\) DecimalPlaces(String) : int \\
+\(-\) AppendZeros(String, int) : String \\
+\(-\) RemoveZerosStart(String) : String \\
+\(-\) RemoveUnnecessaryZeros(String) : String \\
+\(-\) AddPositiveNums(String, String) : String \\
+\(-\) SubPositiveNums(String, String) : String \\
+\(-\) MulPosSingleDigit(String, char) : String \\
+\(-\) MulPositiveNums(String, String) : String \\
+\(-\) DivPosNums(String, String) : String \\
+\(+\) add(AFloat) : AFloat \\
+\(+\) sub(AFloat) : AFloat \\
+\(+\) mul(AFloat) : AFloat \\
+\(+\) div(AFloat) : AFloat \\
+\(+\) toString() : String \\
+\hline
+\end{tabular}
+\end{table}
+\newpage
+
+\section{Class : {MyInfArith}}
+MyInfArith is the main driver class for performing arbitrary-precision arithmetic operations. It takes input via command-line arguments and supports operations on both AInteger and AFloat objects. The supported operations are addition, subtraction, multiplication, and division.
+
+\subsection*{Command-Line Arguments}
+The program expects four command-line arguments:
+\begin{itemize}
+    \item \textbf{FirstArg}: Specifies the type of numbers to perform operations on (int or float).
+    \item \textbf{SecondArg}: Specifies the operation to perform (add, sub, mul, or div).
+    \item \textbf{ThirdArg}: The first number to be used in the operation.
+    \item \textbf{FourthArg}: The second number to be used in the operation.
+\end{itemize}
+
+\subsection*{How it works}
+The operations are as follows:
+\begin{itemize}
+    \item If the first argument (FirstArg) is "int", the program will create AInteger objects from the third and fourth arguments and perform the specified operation.
+    \item If the first argument is "float", the program will create AFloat objects from the third and fourth arguments and perform the specified operation.
+    \item If the second argument (SecondArg) is one of add, sub, mul or div the corresponding operation is performed.
+    \item In case of division by zero, an ArithmeticException is caught, and an error message is displayed.
+    \item If the provided arguments do not match the expected values, an error message is shown, indicating the correct usage.
+\end{itemize}
+
+\subsection*{UML Diagram}
+\begin{table}[H]
+\centering
+\begin{tabular}{|c|}
+\hline
+\textbf{MyInfArith} \\
+\hline
+\\
+\hline
+\underline{+ main(String[]) : void} \\  
+\underline{+ isValidInteger(String) : boolean}\\
+\\
+\hline
+\end{tabular}
+\end{table}
+\newpage
+
+\begin{itemize}
+    \item \textbf{isValidNumber(String Str)}: Checking whether a number is decimal point Number.
+    Implementation: 
+    \item \textbf{ContainsDecimal(String Str}: Checking wherther a number contains decimal point or not.
+\end{itemize}
+
+
+\section{Limitations}
+
+\begin{itemize}
+    \item Multiplication and division operations for extremely large numbers (over 10,000 digits) will be slow for floating-point division due to manual digit-by-digit operations.
+    
+    \item The current version does not support scientific notation.All numbers must be given as standard decimal strings.
+    
+    \item We are assuming input strings will be numbers, the library does not currently handle multiple decimal points strings, invalid characters.
+
+    \item No support for other mathmatical operations apart form addition,subtraction,divison etc.
+\end{itemize}
+
+
+\section{Verification}
+\begin{itemize}
+    \item \textbf{MyInfArith.java:}
+    \begin{itemize}
+        \item Go to \texttt{src} directory.
+        \item Compile \texttt{MyInfArith.java} using \texttt{javac MyInfArith.java}
+        \item Run using \texttt{java MyInfArith FirstArg SecondArg ThirdArg FourthArg}.
+    \end{itemize}
+    
+    \item \textbf{Python Script:}
+    \begin{itemize}
+        \item Go to Project directory.
+        \item Run using \texttt{python Script.py FirstArg SecondArg ThirdArg FourthArg}
+    \end{itemize}
+    
+    \item \textbf{Ant Make file:}
+    \begin{itemize}
+        \item \texttt{ant clean} will remove all compiled files.
+        \item \texttt{ant run -Darg1 -Darg2 -Darg3 -Darg4}.
+    \end{itemize}
+    
+    \item \textbf{JAR file:}
+    \begin{itemize}
+        \item Files in JAR file can be viewed using: \texttt{jar tf aarithmetic.jar}
+        \item Use the \texttt{-cp} option when compiling your Java file to include the JAR: \\
+        \texttt{javac -cp arbitraryarithmetic/aarithmetic.jar -d bin src/MyInfArith.java}
+        \item While running the program, again include the JAR in the classpath: \\
+        \texttt{java -cp bin:arbitraryarithmetic/aarithmetic.jar MyInfArith FirstArg SecondArg ThirdArg FourthArg}
+    \end{itemize}
+\end{itemize}
+
+
+
+
+\begin{itemize}
+    \item \textbf{MyInfArith.java:}\\
+    \textbf{1)} \texttt{java MyInfArith int add 23650078224912949497310933240250}\\
+    \texttt{42939783262467113798386384401498}\\
+    Output: 66589861487380063295697317641748\\
+    \textbf{2)} \texttt{java MyInfArith float div 8792726365283060579833950521677211.0
+493835253617089647454998358}\\
+    Output: 17804979.091469989302961159520087878533
+    
+    \item \textbf{Python Script:}\\
+    \textbf{1)} \texttt{python3 Script.py int sub 3116511674006599806495512758577}\\
+    \texttt{57745242300346381144446453884008}\\
+    Output: -54628730626339781337950941125431\\
+    \textbf{2)}\texttt{python3 Script.py float add 84486723.420039 70974199.843732}\\
+    Output: 155460923.263771
+    
+    \item \textbf{Ant:}\\
+    \textbf{1)} \texttt{ant run -Darg1=int -Darg2=mul -Darg3=14344163160445929942680697312322 -Darg4=23017167694823904478474013730519}\\
+    Output: 330162008905899217578310782382075660760972861550182008086155118\\
+    \textbf{2)} \texttt{ant run -Darg1=int -Darg2=sub -Darg3=840196454.51725 -Darg4=712586963.70283}\\
+    Output: 127609490.81442
+
+    \item \textbf{JAR:}\\
+    \textbf{1)} \texttt{java -cp bin:arbitraryarithmetic/aarithmetic.jar MyInfArith int div 2 0}\\
+    Output: Division by zero error\\
+    \textbf{2)} \texttt{java -cp bin:arbitraryarithmetic/aarithmetic.jar MyInfArith float div 00.20 05}\\
+    Output: 0.04
+\end{itemize}
+
+
+\section{Key Learnings}
+\begin{itemize}
+    \item \texttt{Creating JAR file and using it with different java files}
+    \item \texttt{Object-Oriented Programming} 
+    \item \texttt{Git Commands}
+    \item \texttt{Testing and Debugging}
+    \item \texttt{Ant Make file}    
+\end{itemize}
+
+\end{document}
