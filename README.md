@@ -110,3 +110,8 @@ The compiled aarithmetic.jar located in the arbitraryarithmetic directory contai
 • No support for other mathmatical operations apart form addition,subtraction,divison.
 
 📦Docker :
+You can run this project inside a Docker container for consistency and ease of use.
+    docker build -t arbitrary-precision .
+Run the container
+    docker run -it murthymanideep/arbitrary-precision
+Make sure your Dockerfile is in the root of the project directory
